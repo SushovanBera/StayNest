@@ -14,8 +14,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
 
-import java.io.IOException;
+import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 
 @Configuration
 public class FirebaseConfig {
@@ -32,14 +33,26 @@ public class FirebaseConfig {
     public void initialize() {
         try {
             if (FirebaseApp.getApps().isEmpty()) {
-                if (credentialResource == null || !credentialResource.exists()) {
+                InputStream serviceAccountStream = null;
+
+                // Priority 1: Cloud environment variable (Render / Heroku / AWS)
+                String envJson = System.getenv("FIREBASE_CREDENTIALS_JSON");
+                if (envJson != null && !envJson.trim().isEmpty()) {
+                    logger.info("Initializing Firebase using FIREBASE_CREDENTIALS_JSON environment variable");
+                    serviceAccountStream = new ByteArrayInputStream(envJson.getBytes(StandardCharsets.UTF_8));
+                }
+                // Priority 2: Configured resource / service account file
+                else if (credentialResource != null && credentialResource.exists()) {
+                    logger.info("Initializing Firebase using credential resource: {}", credentialResource);
+                    serviceAccountStream = credentialResource.getInputStream();
+                } else {
                     logger.warn("Firebase credential file not found at {}. Firebase initialization skipped.", credentialResource);
                     return;
                 }
 
-                try (InputStream serviceAccount = credentialResource.getInputStream()) {
+                try (InputStream is = serviceAccountStream) {
                     FirebaseOptions options = FirebaseOptions.builder()
-                            .setCredentials(GoogleCredentials.fromStream(serviceAccount))
+                            .setCredentials(GoogleCredentials.fromStream(is))
                             .setProjectId(projectId)
                             .build();
 
@@ -47,7 +60,7 @@ public class FirebaseConfig {
                     logger.info("Successfully connected to Firebase project: {}", projectId);
                 }
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             logger.error("Failed to initialize Firebase Admin SDK: {}", e.getMessage(), e);
         }
     }

@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: staynest
+    env: docker
+    plan: free
+    region: oregon
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /api/properties?category=beachfront
+    envVars:
+      - key: PORT
+        value: 10000
+      - key: FIREBASE_PROJECT_ID
+        value: staynest-booking
+      - key: JWT_SECRET
+        generateValue: true
+      # Optional: To connect Firebase in Render without uploading files,
+      # add FIREBASE_CREDENTIALS_JSON in the Render Dashboard under Environment Variables
+      # and paste the entire content of firebase-service-account.json

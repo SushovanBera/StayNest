@@ -1,0 +1,19 @@
+# Build outputs and temporary caches
+target/
+compiled_classes/
+BOOT-INF/
+sources.txt
+*.log
+
+# Git files
+.git/
+.gitignore
+
+# IDE files
+.idea/
+.vscode/
+*.iml
+tempCodeRunnerFile.xml
+
+# Local scripts
+*.bat

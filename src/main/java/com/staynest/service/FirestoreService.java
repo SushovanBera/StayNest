@@ -66,6 +66,33 @@ public class FirestoreService {
     }
 
     /**
+     * Look up a user document by email from Cloud Firestore
+     */
+    public Map<String, Object> findUserByEmail(String email) {
+        if (!isConnected() || email == null) return Collections.emptyMap();
+        try {
+            String sanitized = email.trim().toLowerCase();
+            String docId = "user_" + sanitized.replace("@", "_at_").replace(".", "_dot_");
+            Map<String, Object> doc = getDocument("users", docId);
+            if (doc != null && !doc.isEmpty()) {
+                return doc;
+            }
+
+            ApiFuture<QuerySnapshot> future = firestore.collection("users")
+                    .whereEqualTo("email", sanitized)
+                    .limit(1)
+                    .get();
+            List<QueryDocumentSnapshot> docs = future.get().getDocuments();
+            if (!docs.isEmpty()) {
+                return docs.get(0).getData();
+            }
+        } catch (Exception e) {
+            logger.debug("Could not lookup user {} in Firestore: {}", email, e.getMessage());
+        }
+        return Collections.emptyMap();
+    }
+
+    /**
      * Retrieve all documents from a collection
      */
     public List<Map<String, Object>> getAllDocuments(String collectionName) {
