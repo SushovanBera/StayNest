@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Property Details — StayNest</title>
+  
+  <!-- Bootstrap 5 CSS & Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  
+  <!-- Custom Stylesheets -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <!-- ===================================================================
+       Navbar
+       =================================================================== -->
+  <nav class="staynest-navbar">
+    <div class="container px-lg-5 d-flex justify-content-between align-items-center">
+      <a class="brand-logo" href="index.html">
+        <svg viewBox="0 0 32 32">
+          <path d="M16 1c2.008 0 3.463.963 4.751 3.269l.533 1.025c1.954 3.83 6.114 12.54 7.1 14.836l.145.353c.667 1.591.91 2.472.96 3.396l.011.315c0 4.39-3.411 7.806-7.8 7.806-3.087 0-5.356-1.579-6.7-4.14-1.344 2.561-3.613 4.14-6.7 4.14-4.389 0-7.8-3.416-7.8-7.806 0-1.168.328-2.392 1.053-4.017l.063-.147c.986-2.296 5.146-11.006 7.1-14.836l.533-1.025C10.537 1.963 11.992 1 14 1h2zm0 2h-2c-1.294 0-2.316.634-3.376 2.527l-.527 1.014c-1.936 3.793-6.082 12.474-7.054 14.739l-.053.125C2.378 22.95 2.1 23.955 2.1 24.894c0 3.277 2.523 5.806 5.8 5.806 2.748 0 4.887-1.748 5.922-4.492l.478-1.341.478 1.341c1.035 2.744 3.174 4.492 5.922 4.492 3.277 0 5.8-2.529 5.8-5.806 0-.939-.278-1.944-.89-3.489l-.053-.125c-.972-2.265-5.118-10.946-7.054-14.739l-.527-1.014C17.316 3.634 16.294 3 15 3h1z"/>
+        </svg>
+        <span>StayNest</span>
+      </a>
+
+      <div class="nav-search-pill d-none d-md-flex" onclick="window.location.href='explore.html'">
+        <span class="search-term">Start your search</span>
+        <div class="search-btn-icon ms-3"><i class="bi bi-search"></i></div>
+      </div>
+
+      <div class="nav-user-menu" id="userNavContainer"></div>
+    </div>
+  </nav>
+
+  <!-- ===================================================================
+       Property Header & Gallery
+       =================================================================== -->
+  <main class="container px-lg-5 py-4">
+    <div class="property-details-header">
+      <h1 id="propertyTitle" class="fw-bold">Loading Stay...</h1>
+      <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
+        <div id="propertyRatingTop" class="d-flex align-items-center"></div>
+        <div class="d-flex align-items-center gap-3">
+          <button class="btn btn-outline-secondary btn-sm rounded-pill px-3" onclick="navigator.clipboard.writeText(window.location.href); showToast('Link copied to clipboard!', 'info');">
+            <i class="bi bi-share me-1"></i> Share
+          </button>
+          <button class="btn btn-outline-danger btn-sm rounded-pill px-3" id="detailsHeartBtn">
+            <i class="bi bi-heart me-1"></i> Save
+          </button>
+        </div>
+      </div>
+      <div class="text-muted small"><i class="bi bi-geo-alt-fill me-1 text-danger"></i> <span id="propertyLocation"></span></div>
+    </div>
+
+    <!-- Image Mosaic Gallery -->
+    <div class="property-gallery-grid" id="propertyGalleryGrid">
+      <!-- Injected by property.js -->
+    </div>
+
+    <!-- ===================================================================
+         Content Layout (2 Columns: Details + Floating Booking Widget)
+         =================================================================== -->
+    <div class="row g-5">
+      <!-- Left Details Column -->
+      <div class="col-lg-7 col-xl-8">
+        <!-- Specs Bar -->
+        <div class="border-bottom pb-3 mb-4">
+          <h4 class="fw-bold mb-1">Entire vacation home hosted by local Superhost</h4>
+          <p class="text-muted mb-0" id="propertySpecs"></p>
+        </div>
+
+        <!-- Host Spotlight Card -->
+        <div class="d-flex align-items-center gap-3 border-bottom pb-4 mb-4">
+          <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=120&q=80" 
+               id="hostAvatar" class="rounded-circle shadow-sm" style="width: 60px; height: 60px; object-fit: cover;">
+          <div>
+            <h6 class="fw-bold mb-0" id="hostName">Hosted by Host</h6>
+            <div class="badge badge-superhost mt-1"><i class="bi bi-award-fill text-warning me-1"></i> Superhost &bull; 6 years hosting</div>
+            <p class="text-muted small mb-0 mt-1" id="hostBio"></p>
+          </div>
+        </div>
+
+        <!-- Description -->
+        <div class="border-bottom pb-4 mb-4">
+          <h5 class="fw-bold mb-3">About this space</h5>
+          <p class="text-dark-light" id="propertyDescription" style="white-space: pre-line; line-height: 1.7;"></p>
+        </div>
+
+        <!-- Amenities -->
+        <div class="border-bottom pb-4 mb-4">
+          <h5 class="fw-bold mb-3">What this place offers</h5>
+          <div class="amenities-grid" id="amenitiesGridContainer">
+            <!-- Amenities injected dynamically -->
+          </div>
+        </div>
+
+        <!-- Reviews Section -->
+        <div class="pb-4 mb-4">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5 class="fw-bold mb-0">Guest Reviews</h5>
+            <button class="btn btn-outline-dark btn-sm rounded-pill px-3" onclick="openAddReviewModal()">
+              <i class="bi bi-pencil-square me-1"></i> Leave a Review
+            </button>
+          </div>
+
+          <div class="row" id="propertyReviewsContainer">
+            <!-- Reviews injected dynamically -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Interactive Booking Widget -->
+      <div class="col-lg-5 col-xl-4">
+        <div class="booking-widget-card">
+          <div class="d-flex justify-content-between align-items-baseline mb-3">
+            <div class="booking-widget-price">
+              <span id="widgetPriceNight">$0</span> <span>/ night</span>
+            </div>
+            <div class="text-muted small">
+              <i class="bi bi-shield-check text-success me-1"></i> Best Rate Guarantee
+            </div>
+          </div>
+
+          <!-- Date and Guest Pickers -->
+          <div class="date-guests-selector">
+            <div class="date-selector-row">
+              <div class="date-input-cell">
+                <label for="bookingCheckIn">CHECK-IN</label>
+                <input type="date" id="bookingCheckIn">
+              </div>
+              <div class="date-input-cell">
+                <label for="bookingCheckOut">CHECKOUT</label>
+                <input type="date" id="bookingCheckOut">
+              </div>
+            </div>
+            <div class="guests-input-cell">
+              <label for="bookingGuests">GUESTS</label>
+              <select id="bookingGuests">
+                <!-- Injected dynamically -->
+              </select>
+            </div>
+          </div>
+
+          <!-- Availability Conflict Alert -->
+          <div class="alert alert-danger py-2 small mb-3" id="availabilityAlert" style="display: none;"></div>
+
+          <!-- Reserve Button -->
+          <button class="btn btn-primary w-100 py-3 mb-3 fw-bold rounded-4 fs-6" id="btnOpenCheckout">
+            Reserve Now
+          </button>
+          <div class="text-center text-muted small mb-3">You won't be charged yet</div>
+
+          <!-- Dynamic Pricing Breakdown -->
+          <div id="breakdownSection">
+            <div class="price-breakdown-row">
+              <span id="calcNightsLabel">$0 x 0 nights</span>
+              <span id="calcBasePrice">$0</span>
+            </div>
+            <div class="price-breakdown-row">
+              <span>Cleaning fee</span>
+              <span id="calcCleaningFee">$0</span>
+            </div>
+            <div class="price-breakdown-row">
+              <span>StayNest service fee (12%)</span>
+              <span id="calcServiceFee">$0</span>
+            </div>
+            <div class="price-breakdown-row">
+              <span>Occupancy taxes (8%)</span>
+              <span id="calcTaxes">$0</span>
+            </div>
+            <div class="price-breakdown-total">
+              <span>Total before taxes & fees</span>
+              <span id="calcTotalPrice">$0</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Similar Properties Section -->
+    <div class="border-top pt-5 mt-5">
+      <h4 class="fw-bold mb-4">Similar stays you may love</h4>
+      <div class="row" id="similarPropertiesContainer">
+        <!-- Injected dynamically -->
+      </div>
+    </div>
+  </main>
+
+  <!-- ===================================================================
+       Demo Payment & Checkout Modal
+       =================================================================== -->
+  <div class="modal fade" id="checkoutModal" tabindex="-1" aria-labelledby="checkoutModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content rounded-4 border-0 shadow-lg p-3">
+        <div class="modal-header border-0 pb-0">
+          <h5 class="modal-title fw-bold" id="checkoutModalLabel">Confirm & Pay (Demo Simulator)</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body">
+          <div class="alert alert-warning py-2 small d-flex align-items-center gap-2 mb-3">
+            <i class="bi bi-info-circle-fill fs-5"></i>
+            <div>
+              <strong>Demonstration Payment Mode:</strong> No real currency will be charged. This simulates real-world reservation confirmation.
+            </div>
+          </div>
+
+          <div class="row g-4">
+            <!-- Left: Payment Options -->
+            <div class="col-md-7">
+              <h6 class="fw-bold mb-3">Select Demo Payment Method</h6>
+              
+              <div class="card border p-3 rounded-3 mb-2">
+                <div class="form-check d-flex align-items-center gap-2">
+                  <input class="form-check-input" type="radio" name="demoPaymentMethod" id="payMethodCard" value="DEMO_CARD" checked>
+                  <label class="form-check-label w-100 fw-bold d-flex justify-content-between" for="payMethodCard">
+                    <span><i class="bi bi-credit-card-2-front me-2"></i> Demo Credit Card</span>
+                    <span class="text-muted small">&bull;&bull;&bull;&bull; 4242</span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="card border p-3 rounded-3 mb-2">
+                <div class="form-check d-flex align-items-center gap-2">
+                  <input class="form-check-input" type="radio" name="demoPaymentMethod" id="payMethodUpi" value="DEMO_UPI">
+                  <label class="form-check-label w-100 fw-bold d-flex justify-content-between" for="payMethodUpi">
+                    <span><i class="bi bi-qr-code me-2"></i> Demo Instant UPI</span>
+                    <span class="text-muted small">staynest@upi</span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="card border p-3 rounded-3 mb-3">
+                <div class="form-check d-flex align-items-center gap-2">
+                  <input class="form-check-input" type="radio" name="demoPaymentMethod" id="payMethodArrival" value="PAY_ON_ARRIVAL">
+                  <label class="form-check-label w-100 fw-bold" for="payMethodArrival">
+                    <i class="bi bi-cash me-2"></i> Pay on Arrival at Property
+                  </label>
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="bookingSpecialRequests" class="form-label small fw-bold">Special Requests for Host (Optional)</label>
+                <textarea id="bookingSpecialRequests" class="form-control rounded-3" rows="2" placeholder="e.g. Estimated arrival time, dietary requests, celebrations..."></textarea>
+              </div>
+
+              <button class="btn btn-primary w-100 py-3 rounded-pill fw-bold" id="btnConfirmReservation">
+                <i class="bi bi-shield-check me-2"></i> Confirm & Book Reservation
+              </button>
+            </div>
+
+            <!-- Right: Reservation Summary Card -->
+            <div class="col-md-5">
+              <div class="card bg-light border-0 rounded-4 p-3 h-100">
+                <div class="d-flex gap-3 mb-3">
+                  <img src="" id="checkoutPropertyThumb" class="rounded-3" style="width: 80px; height: 60px; object-fit: cover;">
+                  <div>
+                    <h6 class="fw-bold mb-1 text-truncate" style="max-width: 160px;" id="checkoutPropertyTitle">Stay</h6>
+                    <small class="text-muted d-block" id="checkoutDates">Dates</small>
+                    <small class="text-muted" id="checkoutGuests">Guests</small>
+                  </div>
+                </div>
+                <hr>
+                <div class="d-flex justify-content-between fw-bold fs-5 mt-auto">
+                  <span>Total Due:</span>
+                  <span id="checkoutTotal" class="text-primary">$0</span>
+                </div>
+                <small class="text-muted mt-2">Free cancellation up to 48 hours before check-in.</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================================
+       Booking Confirmation Modal
+       =================================================================== -->
+  <div class="modal fade" id="bookingSuccessModal" tabindex="-1" data-bs-backdrop="static" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content rounded-4 border-0 shadow-lg text-center p-4">
+        <div class="text-success mb-3">
+          <i class="bi bi-check-circle-fill" style="font-size: 4rem;"></i>
+        </div>
+        <h4 class="fw-bold mb-1">Reservation Confirmed!</h4>
+        <p class="text-muted small">Your trip is officially booked. A confirmation has been stored in your StayNest account.</p>
+
+        <div class="bg-light p-3 rounded-3 text-start mb-3 border">
+          <div class="d-flex justify-content-between mb-1">
+            <span class="text-muted small">Reservation Code:</span>
+            <strong class="text-primary" id="confirmBookingCode">SN-2026-XXXX</strong>
+          </div>
+          <div class="d-flex justify-content-between mb-1">
+            <span class="text-muted small">Property:</span>
+            <strong class="text-dark text-truncate" style="max-width: 200px;" id="confirmPropertyTitle">Villa</strong>
+          </div>
+          <div class="d-flex justify-content-between mb-1">
+            <span class="text-muted small">Dates:</span>
+            <span id="confirmDates"></span>
+          </div>
+          <div class="d-flex justify-content-between">
+            <span class="text-muted small">Total Paid:</span>
+            <strong class="text-success" id="confirmTotalPrice">$0</strong>
+          </div>
+        </div>
+
+        <div class="d-grid gap-2">
+          <a href="bookings.html" class="btn btn-primary rounded-pill py-2">
+            View My Trips & Bookings
+          </a>
+          <button type="button" class="btn btn-outline-secondary rounded-pill py-2" data-bs-dismiss="modal">
+            Close & Continue Browsing
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================================
+       Add Review Modal
+       =================================================================== -->
+  <div class="modal fade" id="addReviewModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content rounded-4 border-0 shadow-lg p-3">
+        <div class="modal-header border-0 pb-0">
+          <h5 class="modal-title fw-bold">Leave a Review</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3 text-center">
+            <label class="form-label small fw-bold d-block">Overall Rating</label>
+            <div class="btn-group" role="group">
+              <input type="radio" class="btn-check" name="reviewRating" id="rate5" value="5" checked>
+              <label class="btn btn-outline-warning" for="rate5">5 ★</label>
+              <input type="radio" class="btn-check" name="reviewRating" id="rate4" value="4">
+              <label class="btn btn-outline-warning" for="rate4">4 ★</label>
+              <input type="radio" class="btn-check" name="reviewRating" id="rate3" value="3">
+              <label class="btn btn-outline-warning" for="rate3">3 ★</label>
+              <input type="radio" class="btn-check" name="reviewRating" id="rate2" value="2">
+              <label class="btn btn-outline-warning" for="rate2">2 ★</label>
+              <input type="radio" class="btn-check" name="reviewRating" id="rate1" value="1">
+              <label class="btn btn-outline-warning" for="rate1">1 ★</label>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="reviewCommentText" class="form-label small fw-bold">Your Review</label>
+            <textarea id="reviewCommentText" class="form-control rounded-3" rows="4" placeholder="What did you love about your stay? How was the host, amenities, and location?"></textarea>
+          </div>
+
+          <button class="btn btn-primary w-100 py-2 rounded-pill fw-bold" id="submitReviewBtn" onclick="submitReview()">
+            Post Review
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Global Auth Modal -->
+  <div class="modal fade" id="authModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content rounded-4 border-0 shadow-lg p-3">
+        <div class="modal-header border-0 pb-0">
+          <h5 class="modal-title fw-bold">Welcome to StayNest</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <ul class="nav nav-pills nav-fill mb-4 p-1 bg-light rounded-pill">
+            <li class="nav-item">
+              <button class="nav-link active rounded-pill fw-bold" id="login-tab" data-bs-toggle="pill" data-bs-target="#login-panel">Log In</button>
+            </li>
+            <li class="nav-item">
+              <button class="nav-link rounded-pill fw-bold" id="register-tab" data-bs-toggle="pill" data-bs-target="#register-panel">Sign Up</button>
+            </li>
+          </ul>
+          <div class="tab-content">
+            <div class="tab-pane fade show active" id="login-panel">
+              <form id="loginForm">
+                <div class="mb-3">
+                  <label class="form-label small fw-bold">Email Address</label>
+                  <input type="email" class="form-control rounded-3" id="loginEmail" required placeholder="name@example.com">
+                </div>
+                <div class="mb-3">
+                  <label class="form-label small fw-bold">Password</label>
+                  <input type="password" class="form-control rounded-3" id="loginPassword" required placeholder="Enter password">
+                </div>
+                <button type="submit" id="loginSubmitBtn" class="btn btn-primary w-100 py-2 rounded-pill mt-2">Continue</button>
+              </form>
+              <div class="text-center my-3 text-muted small">&mdash; or test with demo account &mdash;</div>
+              <div class="d-flex justify-content-center gap-2">
+                <button type="button" class="btn btn-outline-secondary btn-sm rounded-pill" onclick="fillDemoAccount('guest')">Demo Guest</button>
+                <button type="button" class="btn btn-outline-secondary btn-sm rounded-pill" onclick="fillDemoAccount('host')">Demo Host</button>
+                <button type="button" class="btn btn-outline-secondary btn-sm rounded-pill" onclick="fillDemoAccount('admin')">Demo Admin</button>
+              </div>
+            </div>
+            <div class="tab-pane fade" id="register-panel">
+              <form id="registerForm">
+                <div class="row g-2 mb-3">
+                  <div class="col"><input type="text" class="form-control rounded-3" id="regFirstName" required placeholder="First name"></div>
+                  <div class="col"><input type="text" class="form-control rounded-3" id="regLastName" required placeholder="Last name"></div>
+                </div>
+                <div class="mb-3"><input type="email" class="form-control rounded-3" id="regEmail" required placeholder="Email"></div>
+                <div class="mb-3"><input type="password" class="form-control rounded-3" id="regPassword" required minlength="6" placeholder="Password"></div>
+                <div class="mb-3">
+                  <select class="form-select rounded-3" id="regRole">
+                    <option value="ROLE_GUEST">Guest</option>
+                    <option value="ROLE_HOST">Host</option>
+                  </select>
+                </div>
+                <button type="submit" id="registerSubmitBtn" class="btn btn-primary w-100 py-2 rounded-pill">Sign Up</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap 5 JS Bundle & Custom Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/property.js"></script>
+</body>
+</html>

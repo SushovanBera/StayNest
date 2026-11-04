@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Console — StayNest</title>
+  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body class="bg-light">
+
+  <!-- Navbar -->
+  <nav class="staynest-navbar bg-white">
+    <div class="container-fluid px-lg-5 d-flex justify-content-between align-items-center">
+      <div class="d-flex align-items-center gap-3">
+        <a class="brand-logo" href="index.html">
+          <svg viewBox="0 0 32 32">
+            <path d="M16 1c2.008 0 3.463.963 4.751 3.269l.533 1.025c1.954 3.83 6.114 12.54 7.1 14.836l.145.353c.667 1.591.91 2.472.96 3.396l.011.315c0 4.39-3.411 7.806-7.8 7.806-3.087 0-5.356-1.579-6.7-4.14-1.344 2.561-3.613 4.14-6.7 4.14-4.389 0-7.8-3.416-7.8-7.806 0-1.168.328-2.392 1.053-4.017l.063-.147c.986-2.296 5.146-11.006 7.1-14.836l.533-1.025C10.537 1.963 11.992 1 14 1h2zm0 2h-2c-1.294 0-2.316.634-3.376 2.527l-.527 1.014c-1.936 3.793-6.082 12.474-7.054 14.739l-.053.125C2.378 22.95 2.1 23.955 2.1 24.894c0 3.277 2.523 5.806 5.8 5.806 2.748 0 4.887-1.748 5.922-4.492l.478-1.341.478 1.341c1.035 2.744 3.174 4.492 5.922 4.492 3.277 0 5.8-2.529 5.8-5.806 0-.939-.278-1.944-.89-3.489l-.053-.125c-.972-2.265-5.118-10.946-7.054-14.739l-.527-1.014C17.316 3.634 16.294 3 15 3h1z"/>
+          </svg>
+          <span>StayNest</span>
+        </a>
+        <span class="badge bg-danger rounded-pill px-3 py-2 ms-2">Platform Administration</span>
+      </div>
+
+      <div class="nav-user-menu" id="userNavContainer"></div>
+    </div>
+  </nav>
+
+  <!-- Admin Content -->
+  <main class="container-fluid px-lg-5 py-5">
+    <div class="mb-4">
+      <h2 class="fw-bold mb-1">Platform Administration & Quality Control</h2>
+      <p class="text-muted small mb-0">Platform overview metrics, user authorization, listing approval, and review moderation</p>
+    </div>
+
+    <!-- Platform Stats -->
+    <div class="row g-4 mb-5">
+      <div class="col-6 col-md-3">
+        <div class="dashboard-stat-card">
+          <div class="stat-icon-wrapper text-primary">
+            <i class="bi bi-people"></i>
+          </div>
+          <div class="stat-number" id="statAdminUsers">0</div>
+          <div class="stat-label" id="statAdminHosts">Registered Users</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="dashboard-stat-card">
+          <div class="stat-icon-wrapper text-info bg-info bg-opacity-10">
+            <i class="bi bi-houses"></i>
+          </div>
+          <div class="stat-number" id="statAdminProperties">0</div>
+          <div class="stat-label">Active / Total Properties</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="dashboard-stat-card">
+          <div class="stat-icon-wrapper text-success bg-success bg-opacity-10">
+            <i class="bi bi-cash-stack"></i>
+          </div>
+          <div class="stat-number" id="statAdminRevenue">$0</div>
+          <div class="stat-label">Platform Gross Revenue</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="dashboard-stat-card">
+          <div class="stat-icon-wrapper text-warning bg-warning bg-opacity-10">
+            <i class="bi bi-calendar2-check"></i>
+          </div>
+          <div class="stat-number" id="statAdminBookings">0</div>
+          <div class="stat-label">Total Bookings Completed</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- User Management Table -->
+    <div class="card border-0 shadow-sm rounded-4 mb-5 overflow-hidden">
+      <div class="card-header bg-white py-3 px-4 border-bottom">
+        <h5 class="fw-bold mb-0">User Accounts & Roles</h5>
+      </div>
+      <div class="table-responsive">
+        <table class="table custom-table mb-0">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>User</th>
+              <th>System Role</th>
+              <th>Account Status</th>
+              <th>Joined Date</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="adminUsersTableBody">
+            <!-- Injected by admin.js -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Property Listings Moderation -->
+    <div class="card border-0 shadow-sm rounded-4 mb-5 overflow-hidden">
+      <div class="card-header bg-white py-3 px-4 border-bottom">
+        <h5 class="fw-bold mb-0">Property Listings Moderation</h5>
+      </div>
+      <div class="table-responsive">
+        <table class="table custom-table mb-0">
+          <thead>
+            <tr>
+              <th>Photo</th>
+              <th>Property</th>
+              <th>Host</th>
+              <th>Nightly Price</th>
+              <th>Visibility</th>
+              <th>Featured</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="adminPropertiesTableBody">
+            <!-- Injected by admin.js -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Review Moderation Table -->
+    <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+      <div class="card-header bg-white py-3 px-4 border-bottom">
+        <h5 class="fw-bold mb-0">Community Reviews Moderation</h5>
+      </div>
+      <div class="table-responsive">
+        <table class="table custom-table mb-0">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Reviewer</th>
+              <th>Property</th>
+              <th>Rating</th>
+              <th>Comment</th>
+              <th>Moderation</th>
+            </tr>
+          </thead>
+          <tbody id="adminReviewsTableBody">
+            <!-- Injected by admin.js -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>

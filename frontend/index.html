@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StayNest — Vacation Homes, Cabins, Beachfront Stays & More</title>
+  
+  <!-- Bootstrap 5 CSS & Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  
+  <!-- Custom Stylesheets -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%23FF385C'/><path d='M50 25 L75 55 L25 55 Z' fill='white'/></svg>">
+</head>
+<body>
+
+  <!-- ===================================================================
+       Navigation Bar
+       =================================================================== -->
+  <nav class="staynest-navbar">
+    <div class="container-fluid px-lg-5 d-flex justify-content-between align-items-center">
+      <!-- Brand Logo -->
+      <a class="brand-logo" href="index.html">
+        <svg viewBox="0 0 32 32">
+          <path d="M16 1c2.008 0 3.463.963 4.751 3.269l.533 1.025c1.954 3.83 6.114 12.54 7.1 14.836l.145.353c.667 1.591.91 2.472.96 3.396l.011.315c0 4.39-3.411 7.806-7.8 7.806-3.087 0-5.356-1.579-6.7-4.14-1.344 2.561-3.613 4.14-6.7 4.14-4.389 0-7.8-3.416-7.8-7.806 0-1.168.328-2.392 1.053-4.017l.063-.147c.986-2.296 5.146-11.006 7.1-14.836l.533-1.025C10.537 1.963 11.992 1 14 1h2zm0 2h-2c-1.294 0-2.316.634-3.376 2.527l-.527 1.014c-1.936 3.793-6.082 12.474-7.054 14.739l-.053.125C2.378 22.95 2.1 23.955 2.1 24.894c0 3.277 2.523 5.806 5.8 5.806 2.748 0 4.887-1.748 5.922-4.492l.478-1.341.478 1.341c1.035 2.744 3.174 4.492 5.922 4.492 3.277 0 5.8-2.529 5.8-5.806 0-.939-.278-1.944-.89-3.489l-.053-.125c-.972-2.265-5.118-10.946-7.054-14.739l-.527-1.014C17.316 3.634 16.294 3 15 3h1z"/>
+        </svg>
+        <span>StayNest</span>
+      </a>
+
+      <!-- Middle Search Pill Trigger (Mobile / Quick) -->
+      <div class="nav-search-pill d-none d-md-flex" onclick="window.location.href='explore.html'">
+        <span class="search-term">Anywhere</span>
+        <div class="search-divider"></div>
+        <span class="search-term">Any week</span>
+        <div class="search-divider"></div>
+        <span class="text-muted small">Add guests</span>
+        <div class="search-btn-icon ms-3">
+          <i class="bi bi-search"></i>
+        </div>
+      </div>
+
+      <!-- Right User Nav Container -->
+      <div class="nav-user-menu" id="userNavContainer">
+        <!-- Rendered dynamically by main.js -->
+      </div>
+    </div>
+  </nav>
+
+  <!-- ===================================================================
+       Category Bar (Horizontal Scrollable Tabs)
+       =================================================================== -->
+  <div class="category-bar-wrapper">
+    <div class="container-fluid px-lg-5">
+      <div class="category-scroll" id="categoryScrollContainer">
+        <!-- Populated via API (/api/categories) -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================================
+       Hero Search Box Section
+       =================================================================== -->
+  <section class="py-4 py-lg-5 bg-white border-bottom">
+    <div class="container">
+      <div class="text-center mb-4">
+        <h1 class="fw-bold display-6 mb-2">Find your next extraordinary stay</h1>
+        <p class="text-muted">Explore beachfront villas, alpine cabins, and designer urban sanctuaries.</p>
+      </div>
+
+      <!-- Main Search Component -->
+      <form id="homeSearchForm" class="hero-search-box">
+        <!-- Destination -->
+        <div class="search-field-item">
+          <label for="searchDestination">Where</label>
+          <input type="text" id="searchDestination" placeholder="Search destinations (e.g. Malibu, Paris, Aspen)" autocomplete="off">
+        </div>
+
+        <div class="search-field-divider"></div>
+
+        <!-- Check-In -->
+        <div class="search-field-item">
+          <label for="searchCheckIn">Check in</label>
+          <input type="date" id="searchCheckIn">
+        </div>
+
+        <div class="search-field-divider"></div>
+
+        <!-- Check-Out -->
+        <div class="search-field-item">
+          <label for="searchCheckOut">Check out</label>
+          <input type="date" id="searchCheckOut">
+        </div>
+
+        <div class="search-field-divider"></div>
+
+        <!-- Guests -->
+        <div class="search-field-item">
+          <label for="searchGuests">Who</label>
+          <select id="searchGuests">
+            <option value="1">1 guest</option>
+            <option value="2" selected>2 guests</option>
+            <option value="3">3 guests</option>
+            <option value="4">4 guests</option>
+            <option value="6">6+ guests</option>
+          </select>
+        </div>
+
+        <!-- Search Button -->
+        <button type="submit" class="btn-search-main">
+          <i class="bi bi-search"></i>
+          <span>Search</span>
+        </button>
+      </form>
+    </div>
+  </section>
+
+  <!-- ===================================================================
+       Featured Listings Section
+       =================================================================== -->
+  <main class="py-5">
+    <div class="container-fluid px-lg-5">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+          <h3 class="fw-bold mb-1">Featured Vacation Stays</h3>
+          <p class="text-muted small mb-0">Handpicked stays rated 4.8+ by travelers worldwide</p>
+        </div>
+        <a href="explore.html" class="btn btn-outline-dark btn-sm rounded-pill px-4">
+          Show all stays <i class="bi bi-arrow-right ms-1"></i>
+        </a>
+      </div>
+
+      <!-- Cards Grid -->
+      <div class="row" id="featuredListingsContainer">
+        <!-- Rendered dynamically by home.js -->
+      </div>
+    </div>
+  </main>
+
+  <!-- ===================================================================
+       Host Promo Banner
+       =================================================================== -->
+  <section class="py-5 bg-light my-5 border-top border-bottom">
+    <div class="container py-4">
+      <div class="row align-items-center g-4">
+        <div class="col-lg-6">
+          <span class="badge badge-coral mb-2">Become a Host</span>
+          <h2 class="display-6 fw-bold mb-3">Earn effortless income with your extra space</h2>
+          <p class="text-muted fs-6 mb-4">
+            Join thousands of hosts welcoming travelers. Enjoy verified guests, comprehensive host protection, and full pricing freedom.
+          </p>
+          <div class="d-flex gap-3">
+            <button class="btn btn-primary px-4 py-2" onclick="switchHostMode()">
+              Start Hosting Today
+            </button>
+            <a href="explore.html" class="btn btn-outline-dark px-4 py-2 rounded-pill">
+              Explore Platform
+            </a>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <img src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=900&q=80" 
+               alt="Hosting on StayNest" class="img-fluid rounded-4 shadow-lg">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================================
+       Footer
+       =================================================================== -->
+  <footer class="staynest-footer">
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-6 col-md-3">
+          <h6 class="footer-heading">Support</h6>
+          <ul class="footer-links">
+            <li><a href="javascript:void(0)">Help Center</a></li>
+            <li><a href="javascript:void(0)">AirCover Protection</a></li>
+            <li><a href="javascript:void(0)">Anti-discrimination</a></li>
+            <li><a href="javascript:void(0)">Disability support</a></li>
+            <li><a href="javascript:void(0)">Cancellation options</a></li>
+          </ul>
+        </div>
+        <div class="col-6 col-md-3">
+          <h6 class="footer-heading">Hosting</h6>
+          <ul class="footer-links">
+            <li><a href="javascript:void(0)" onclick="switchHostMode()">StayNest your home</a></li>
+            <li><a href="javascript:void(0)">Hosting resources</a></li>
+            <li><a href="javascript:void(0)">Community forum</a></li>
+            <li><a href="javascript:void(0)">Hosting responsibly</a></li>
+          </ul>
+        </div>
+        <div class="col-6 col-md-3">
+          <h6 class="footer-heading">StayNest</h6>
+          <ul class="footer-links">
+            <li><a href="javascript:void(0)">Newsroom</a></li>
+            <li><a href="javascript:void(0)">New features</a></li>
+            <li><a href="javascript:void(0)">Careers</a></li>
+            <li><a href="javascript:void(0)">Investors</a></li>
+          </ul>
+        </div>
+        <div class="col-6 col-md-3">
+          <h6 class="footer-heading">Quick Demo Access</h6>
+          <p class="text-muted small">One-click testing accounts:</p>
+          <div class="d-flex flex-column gap-2">
+            <button class="btn btn-outline-secondary btn-sm rounded-pill text-start" onclick="fillDemoAccount('guest'); openAuthModal('login');">
+              <i class="bi bi-person me-2"></i> Login as Demo Guest
+            </button>
+            <button class="btn btn-outline-secondary btn-sm rounded-pill text-start" onclick="fillDemoAccount('host'); openAuthModal('login');">
+              <i class="bi bi-house me-2"></i> Login as Demo Host
+            </button>
+            <button class="btn btn-outline-secondary btn-sm rounded-pill text-start" onclick="fillDemoAccount('admin'); openAuthModal('login');">
+              <i class="bi bi-shield me-2"></i> Login as Demo Admin
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>
+          &copy; 2026 StayNest, Inc. &bull; <a href="javascript:void(0)">Privacy</a> &bull; <a href="javascript:void(0)">Terms</a> &bull; <a href="javascript:void(0)">Sitemap</a>
+        </div>
+        <div class="d-flex align-items-center gap-3">
+          <span><i class="bi bi-globe me-1"></i> English (US)</span>
+          <span><strong>$ USD</strong></span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===================================================================
+       Authentication Modal (Login & Sign Up)
+       =================================================================== -->
+  <div class="modal fade" id="authModal" tabindex="-1" aria-labelledby="authModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content rounded-4 border-0 shadow-lg p-3">
+        <div class="modal-header border-0 pb-0">
+          <h5 class="modal-title fw-bold" id="authModalLabel">Welcome to StayNest</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body">
+          <!-- Auth Tabs -->
+          <ul class="nav nav-pills nav-fill mb-4 p-1 bg-light rounded-pill" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button class="nav-link active rounded-pill fw-bold" id="login-tab" data-bs-toggle="pill" data-bs-target="#login-panel" type="button" role="tab">Log In</button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link rounded-pill fw-bold" id="register-tab" data-bs-toggle="pill" data-bs-target="#register-panel" type="button" role="tab">Sign Up</button>
+            </li>
+          </ul>
+
+          <div class="tab-content">
+            <!-- Login Panel -->
+            <div class="tab-pane fade show active" id="login-panel" role="tabpanel">
+              <form id="loginForm">
+                <div class="mb-3">
+                  <label for="loginEmail" class="form-label small fw-bold">Email Address</label>
+                  <input type="email" class="form-control rounded-3 py-2" id="loginEmail" required placeholder="name@example.com">
+                </div>
+                <div class="mb-3">
+                  <label for="loginPassword" class="form-label small fw-bold">Password</label>
+                  <input type="password" class="form-control rounded-3 py-2" id="loginPassword" required placeholder="Enter password">
+                </div>
+                <button type="submit" id="loginSubmitBtn" class="btn btn-primary w-100 py-2 rounded-pill mt-2">
+                  Continue
+                </button>
+              </form>
+
+              <!-- Quick Demo Login Shortcut Buttons -->
+              <div class="text-center my-3 text-muted small">&mdash; or test with demo account &mdash;</div>
+              <div class="d-flex justify-content-center gap-2">
+                <button type="button" class="btn btn-outline-secondary btn-sm rounded-pill" onclick="fillDemoAccount('guest')">Demo Guest</button>
+                <button type="button" class="btn btn-outline-secondary btn-sm rounded-pill" onclick="fillDemoAccount('host')">Demo Host</button>
+                <button type="button" class="btn btn-outline-secondary btn-sm rounded-pill" onclick="fillDemoAccount('admin')">Demo Admin</button>
+              </div>
+            </div>
+
+            <!-- Sign Up Panel -->
+            <div class="tab-pane fade" id="register-panel" role="tabpanel">
+              <form id="registerForm">
+                <div class="row g-2 mb-3">
+                  <div class="col">
+                    <label class="form-label small fw-bold">First Name</label>
+                    <input type="text" class="form-control rounded-3" id="regFirstName" required placeholder="First name">
+                  </div>
+                  <div class="col">
+                    <label class="form-label small fw-bold">Last Name</label>
+                    <input type="text" class="form-control rounded-3" id="regLastName" required placeholder="Last name">
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label small fw-bold">Email Address</label>
+                  <input type="email" class="form-control rounded-3" id="regEmail" required placeholder="name@example.com">
+                </div>
+                <div class="mb-3">
+                  <label class="form-label small fw-bold">Password (min 6 chars)</label>
+                  <input type="password" class="form-control rounded-3" id="regPassword" required minlength="6" placeholder="Choose a secure password">
+                </div>
+                <div class="mb-3">
+                  <label class="form-label small fw-bold">I want to:</label>
+                  <select class="form-select rounded-3" id="regRole">
+                    <option value="ROLE_GUEST" selected>Book vacation stays (Guest)</option>
+                    <option value="ROLE_HOST">List properties & host travelers (Host)</option>
+                  </select>
+                </div>
+                <button type="submit" id="registerSubmitBtn" class="btn btn-primary w-100 py-2 rounded-pill mt-2">
+                  Agree & Sign Up
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap 5 JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Application JS Modules -->
+  <script src="js/api.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/home.js"></script>
+</body>
+</html>

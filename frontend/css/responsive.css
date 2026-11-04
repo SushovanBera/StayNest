@@ -1,0 +1,73 @@
+/* ===================================================================
+   StayNest — Responsive & Mobile Adaptations
+   =================================================================== */
+
+@media (max-width: 991.98px) {
+  .hero-search-box {
+    flex-direction: column;
+    border-radius: 20px;
+    padding: 16px;
+    gap: 12px;
+  }
+
+  .search-field-item {
+    width: 100%;
+    padding: 8px 12px;
+  }
+
+  .search-field-divider {
+    display: none;
+  }
+
+  .btn-search-main {
+    width: 100%;
+    justify-content: center;
+    border-radius: 20px;
+  }
+
+  .property-gallery-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: 280px;
+  }
+
+  .gallery-item:not(.main-photo) {
+    display: none;
+  }
+
+  .booking-widget-card {
+    position: static;
+    margin-top: 30px;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    gap: 12px;
+    text-align: center;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .staynest-navbar {
+    padding: 10px 0;
+  }
+
+  .nav-search-pill {
+    display: none;
+  }
+
+  .category-scroll {
+    gap: 20px;
+  }
+
+  .amenities-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .property-card-title {
+    max-width: 70%;
+  }
+
+  .brand-logo span {
+    display: none;
+  }
+}
